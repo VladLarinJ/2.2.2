@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cars by count or all cars</title>
+</head>
+<body>
+<table class="table table-dark">
+    <thead>
+    <tr>
+        <th scope="col">Model</th>
+        <th scope="col">Vin</th>
+        <th scope="col">Color</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="cars: ${all_cars}">
+        <td th:text="${cars.getModel()}"/>
+        <td th:text="${cars.getVin()}"/>
+        <td th:text="${cars.getColor()}"/>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
