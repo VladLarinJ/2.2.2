@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import web.model.Car;
 import web.service.CarServiceImp;
+import web.service.incorrectParamException;
 
 import java.util.Arrays;
 import java.util.List;
@@ -34,8 +35,12 @@ public class CarsController {
     }
 
     @GetMapping(value = "/cars")
-    public String getListOfCars(@RequestParam(value = "count", required = false) int count, Model model) {
-        model.addAttribute("all_cars", carServiceImp.getListOfCarsByCount(listOfCars, count));
+    public String getListOfCars(@RequestParam(value = "count", defaultValue = "5") int count, Model model) {
+        try {
+            model.addAttribute("all_cars", carServiceImp.getListOfCarsByCount(listOfCars, count));
+        } catch (incorrectParamException e) {
+            model.addAttribute("error", e.getError());
+        }
         return "/cars";
     }
 
