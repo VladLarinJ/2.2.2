@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import web.dao.ListOfCars;
 import web.model.Car;
 import web.service.CarServiceImp;
 import web.service.incorrectParamException;
@@ -17,19 +18,8 @@ import java.util.List;
 public class CarsController {
 
     private final CarServiceImp carServiceImp;
-    private final List<Car> listOfCars;
 
-    {
-        Car car1 = new Car("suzuki", 1,"blue");
-        Car car2 = new Car("honda", 2,"white");
-        Car car3 = new Car("bmw", 3,"black");
-        Car car4 = new Car("renault", 4,"brown");
-        Car car5 = new Car("lada", 5,"gray");
-
-        listOfCars = Arrays.asList(car1, car2, car3, car4, car5);
-    }
-
-    public CarsController(CarServiceImp carServiceImp, List<Car> listOfCars) {
+    public CarsController(CarServiceImp carServiceImp) {
         this.carServiceImp = carServiceImp;
 
     }
@@ -37,12 +27,11 @@ public class CarsController {
     @GetMapping(value = "/cars")
     public String getListOfCars(@RequestParam(value = "count", defaultValue = "5") int count, Model model) {
         try {
-            model.addAttribute("all_cars", carServiceImp.getListOfCarsByCount(listOfCars, count));
+            model.addAttribute("all_cars", carServiceImp.getListOfCarsByCount(ListOfCars.getListOfCars(), count));
         } catch (incorrectParamException e) {
             model.addAttribute("error", e.getError());
         }
         return "/cars";
     }
-
 }
 
